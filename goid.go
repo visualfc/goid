@@ -13,6 +13,9 @@
 // permissions and limitations under the License. See the AUTHORS file
 // for names of contributors.
 
+//go:build !js || (js && wasm)
+// +build !js js,wasm
+
 package goid
 
 import (
