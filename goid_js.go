@@ -6,7 +6,7 @@ package goid
 import (
 	"sync/atomic"
 
-	"github.com/goplusjs/gopherjs/js"
+	"github.com/gopherjs/gopherjs/js"
 )
 
 var (
