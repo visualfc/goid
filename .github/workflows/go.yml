@@ -119,7 +119,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Set up Go
-        uses: actions/setup-go@v2
+        uses: actions/setup-go@v3.3.0
         with:
           go-version: ${{ matrix.go }}
       - name: 'Build with ${{ matrix.go }}'
@@ -165,8 +165,9 @@ jobs:
         run: |
           # Non-host *.syso files are missing from the Go toolchains provided
           # by setup-go. See https://github.com/actions/setup-go/issues/181.
-          curl --location --output ${{ env.GOROOT }}/src/runtime/race/race_linux_arm64.syso \
+          curl --location --output $(go env GOROOT)/src/runtime/race/race_linux_arm64.syso \
             https://github.com/golang/go/raw/release-branch.go${{ matrix.go }}/src/runtime/race/race_linux_arm64.syso && \
+          sudo apt update && \
           sudo apt install gcc-aarch64-linux-gnu && \
           CC=aarch64-linux-gnu-gcc CC_FOR_TARGET=gcc-aarch64-linux-gnu go test -c -race -o goid.race.test ./...
       - name: 'DeleteTestRace with $$ {{ matrix.go}} for aarch64'
@@ -174,7 +175,7 @@ jobs:
         run: rm goid.race.test
       - name: 'Test and Bench with ${{ matrix.go }} on ${{ matrix.arch }}'
         if: ${{ matrix.arch != 'x64' && !matrix.qemu_emulation_broken }}
-        uses: uraimo/run-on-arch-action@v2.1.1
+        uses: uraimo/run-on-arch-action@v2
         with:
           arch: ${{ matrix.arch }}
           distro: bullseye
