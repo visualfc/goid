@@ -1,4 +1,4 @@
-module github.com/petermattis/goid
+module github.com/visualfc/goid
 
 go 1.14
 
